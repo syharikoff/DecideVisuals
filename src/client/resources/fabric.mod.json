@@ -1,0 +1,33 @@
+
+{
+  "schemaVersion": 1,
+  "id": "white",
+  "version": "1.0",
+  "name": "DecideVisuals",
+  "description": "Minecraft Modification",
+  "authors": [
+    "@decidevisuals_dev && @z0fill"
+  ],
+  "contact": {
+    "homepage": "",
+    "issues": ""
+  },
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "ru.white.Client"
+    ]
+  },
+  "mixins": [
+    "mixin.json"
+  ],
+  "accessWidener": "client.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "geckolib": ">=5.4.5"
+  }
+}

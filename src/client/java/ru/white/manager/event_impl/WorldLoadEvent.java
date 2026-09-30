@@ -1,0 +1,7 @@
+package ru.white.manager.event_impl;
+
+
+import ru.white.manager.events.Event;
+
+public class WorldLoadEvent extends Event {
+}

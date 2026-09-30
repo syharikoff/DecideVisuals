@@ -1,0 +1,187 @@
+plugins {
+    id 'fabric-loom' version '1.16.1'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    splitEnvironmentSourceSets()
+    accessWidenerPath = file("src/client/resources/client.accesswidener")
+    mods {
+        "untitled" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
+
+repositories {
+    ivy {
+        name = 'localSodium'
+        url = uri('..')
+        patternLayout {
+            artifact '[artifact]-[revision].[ext]'
+        }
+        metadataSources {
+            artifact()
+        }
+        content {
+            includeModule('local.sodium', 'sodium-fabric')
+            includeModule('local.modmenu', 'modmenu')
+        }
+    }
+    // Сначала плоские jar из libs/, потом Maven Central
+    ivy {
+        name = 'localLibs'
+        url = uri('libs')
+        patternLayout {
+            artifact '[artifact]-[revision](-[classifier]).[ext]'
+        }
+        metadataSources {
+            artifact()
+        }
+    }
+    mavenCentral()
+    // Мавен GeckoLib (реальный geckolib-fabric для порта custom pet)
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
+}
+
+
+def bundleLibsInJar = true
+
+def mediaPlayerInfo = "dev.redstones.mediaplayerinfo:media-player-info:${media_player_info_version}"
+def kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+def kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${kotlinx_serialization_version}"
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation include('local.sodium:sodium-fabric:0.8.14+mc1.21.11')
+    modImplementation include('local.modmenu:modmenu:17.0.0')
+
+    // Реальный GeckoLib (animations для custom pet), отдельный мод — в проде кладётся в mods/
+    modImplementation("software.bernie.geckolib:geckolib-fabric-1.21.11:5.4.5")
+
+    implementation 'org.projectlombok:lombok:1.18.46'
+    annotationProcessor 'org.projectlombok:lombok:1.18.46'
+
+    // JNA: нативные мосты для медиа-сессий Windows (OptMedia.dll) и детектора
+    // вокала (NightixVocal.dll) из модуля Lyrics Text. Вкладывается в jar, иначе
+    // клиент не запустится без внешнего jna на classpath.
+    modImplementation include('net.java.dev.jna:jna:5.17.0')
+
+    if (bundleLibsInJar) {
+        modImplementation include(mediaPlayerInfo)
+        modImplementation include(kotlinStdlib)
+        modImplementation include(kotlinxSerialization)
+    } else {
+        compileOnly mediaPlayerInfo
+        compileOnly kotlinStdlib
+        compileOnly kotlinxSerialization
+
+        modLocalRuntime mediaPlayerInfo
+        modLocalRuntime kotlinStdlib
+        modLocalRuntime kotlinxSerialization
+    }
+}
+tasks.register('copyRuntimeLibs', Copy) {
+    group = 'build'
+    description = 'Копирует vendored-либы в build/libs/ (только bundle_libs_in_jar=false)'
+    onlyIf { !bundleLibsInJar }
+    from("libs/media-player-info-${media_player_info_version}.jar")
+    from("libs/kotlin-stdlib-${kotlin_version}.jar")
+    from("libs/kotlinx-serialization-core-jvm-${kotlinx_serialization_version}.jar")
+    into(layout.buildDirectory.dir('libs'))
+}
+
+tasks.register('copyModRuntimeToMods', Copy) {
+    group = 'build'
+    description = 'Копирует modLocalRuntime в mods/ (только bundle_libs_in_jar=false)'
+    onlyIf { !bundleLibsInJar }
+    from(configurations.modLocalRuntime)
+    into('mods')
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+if (!bundleLibsInJar) {
+    tasks.named('build') {
+        dependsOn 'copyRuntimeLibs'
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archives_base_name}" }
+    }
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+    repositories {
+    }
+}
+
+// Отладочный прогон нативного моста Lyrics Text вне игры: печатает, что реально
+// отдают OptMedia.dll и NightixVocal.dll, и проверяет разбор LRC с lrclib.
+// Запуск: gradlew checkNativeBridge
+tasks.register('checkNativeBridge', JavaExec) {
+    group = 'verification'
+    description = 'Проверяет JNA-мосты медиа-сессий и детектора вокала без запуска игры'
+    classpath = sourceSets.client.runtimeClasspath
+    mainClass = 'ru.white.utils.media.NativeBridgeCheck'
+}

@@ -1,0 +1,17 @@
+{
+  "entity.ribbit.ambient": {
+    "sounds": [
+      "wvisual:entity/ribbit_ambient1",
+      "wvisual:entity/ribbit_ambient2",
+      "wvisual:entity/ribbit_ambient3",
+      "wvisual:entity/ribbit_ambient4",
+      "wvisual:entity/ribbit_ambient5"
+    ]
+  },
+  "entity.ribbit.step": {
+    "sounds": [
+      "wvisual:entity/ribbit_step1",
+      "wvisual:entity/ribbit_step2"
+    ]
+  }
+}

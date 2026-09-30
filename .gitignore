@@ -1,0 +1,47 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Minecraft
+run/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# --- мусор, который копимся во время разработки ---
+hsperfdata_*/
+*.log
+replay_pid*.log
+buildLog*.txt
+build_output*.txt
+build_full*.txt
+build_m.txt
+compile_output.txt
+constructor_*.txt
+run_output*.txt
+run_verify.txt
+run_launch.txt
+out.txt
+
+# --- сторонние моды, распакованные ради рефера ---
+/*.jar
+/tools/
+
+# --- промежуточные ассеты (генерируются скриптами копирования) ---
+/tmp/
+
+# --- разовые скрипты миграции маппингов/импортов ---
+/fix_imports.ps1
+/fix_mappings.ps1
+/gen-mixin.ps1
+/gen-mixin2.ps1
