@@ -45,6 +45,12 @@ import java.util.Random;
  */
 public final class LyricParticles {
 
+    public static final String MODE_LINES    = "Строки";
+    public static final String MODE_WORDS    = "Слова";
+    public static final String LAYOUT_ARC     = "Стандарт";
+    public static final String LAYOUT_SCATTER = "Вразброс";
+    public static final String LAYOUT_CIRCLE  = "360";
+
     /** Растровый размер для раскладки: 1.0 равен 32 «пикселям» шрифта. */
     private static final float RASTER = 32.0f;
 
@@ -71,8 +77,12 @@ public final class LyricParticles {
     private static final float HEAT_FALL_MAX = 320.0f;
     /** Хвост «разгорающегося» глифа после конца слова. */
     private static final long HEAT_TAIL = 420L;
-    /** Сколько строка живёт после своего конца, если дальше нечего показывать. */
+    /** Насколько строка живёт после своего конца. */
     private static final long LINE_TAIL = 7000L;
+    /** Насколько отдельное слово живёт после конца, если дальше нечего показывать. */
+    private static final long WORD_TAIL = 140L;
+    private static final long WORD_MIN_VISIBLE = 650L;
+    private static final long WORD_MAX_VISIBLE = 2600L;
 
     private static final long SHATTER_GRACE = 1600L;
     private static final long REWIND_GRACE = 500L;
@@ -80,6 +90,11 @@ public final class LyricParticles {
     private static final float CULL_FACTOR = 8.0f;
     /** Строки складываются стопкой с шагом 1.35 от размера строки. */
     private static final float LINE_STACK = 1.35f;
+    /** Золотой угол — равномерно расставляет слова по кругу в режиме 360. */
+    private static final float GOLDEN_ANGLE = 137.5f;
+    private static final float SCATTER_LIFT = 2.4f;
+    private static final float SCATTER_NEAR = 0.7f;
+    private static final float SCATTER_FAR = 1.45f;
 
     private static final long ANNOUNCE_VISIBLE = 2600L;
     private static final long ANNOUNCE_EXIT = 520L;
@@ -87,6 +102,15 @@ public final class LyricParticles {
 
     /** inTime min/max, inCascade min/max, outTime min/max, outCascade min/max. */
     private static final float[] LINE_BOUNDS = { 140f, 300f, 110f, 340f, 180f, 380f, 110f, 340f };
+    private static final float[] WORD_BOUNDS = { 70f, 170f, 40f, 120f, 110f, 230f, 40f, 140f };
+
+    /**
+     * Смещение по горизонтали, подъём и дистанция для 8 слотов — разводит слова по
+     * экрану, чтобы они не наезжали друг на друга.
+     */
+    private static final float[] WORD_SIDES = { -0.4f, 0.52f, -0.86f, 1.0f, -0.19f, 0.31f, -0.69f, 0.78f };
+    private static final float[] WORD_LIFTS = { 0.0f, 0.5f, -0.35f, 0.65f, 0.25f, -0.2f, 0.55f, -0.45f };
+    private static final float[] WORD_REACH = { 1.0f, 0.86f, 1.18f, 0.94f, 1.26f, 0.9f, 1.1f, 0.82f };
 
     private final List<Held> held = new ArrayList<>();
     private final List<Debris> debris = new ArrayList<>();
@@ -103,6 +127,8 @@ public final class LyricParticles {
     private String lastTrack = "";
     private String announcedTrack = "";
     private Lyrics lastLyrics;
+    private boolean lastWords;
+    private boolean lastModeCaptured;
     private String lastFont;
 
     private int lastVocalFrames = -1;
@@ -181,6 +207,7 @@ public final class LyricParticles {
         lastTrack = "";
         announcedTrack = "";
         lastLyrics = null;
+        lastModeCaptured = false;
         lastVocalFrames = -1;
     }
 
@@ -189,14 +216,22 @@ public final class LyricParticles {
     private void collect(MinecraftClient mc, Camera camera, long time, float partialTicks, Options options) {
         String track = MediaPlayer.getTrack().display();
         Lyrics lyrics = MediaPlayer.getLyrics();
+        boolean words = options.words();
 
-        boolean fresh = !track.equals(lastTrack) || lyrics != lastLyrics;
+        // Пересобирать куски надо и при смене трека/текста, и при переключении режима:
+        // в режиме слов нарезка принципиально другая.
+        boolean fresh = !track.equals(lastTrack) || lyrics != lastLyrics
+                || !lastModeCaptured || lastWords != words;
         if (fresh) {
             lastTrack = track;
             lastLyrics = lyrics;
+            lastWords = words;
+            lastModeCaptured = true;
             lastIndex = -1;
             held.clear();
-            fragments = (lyrics.isEmpty() || !lyrics.synced()) ? Collections.emptyList() : split(lyrics);
+            fragments = (lyrics.isEmpty() || !lyrics.synced())
+                    ? Collections.emptyList()
+                    : split(lyrics, words);
         }
 
         // Название трека показываем один раз при смене — как «анонс»
@@ -221,12 +256,12 @@ public final class LyricParticles {
         while (lastIndex + 1 < fragments.size() && time >= fragments.get(lastIndex + 1).startMillis) {
             lastIndex++;
             Fragment candidate = fragments.get(lastIndex);
-            Timing timing = timing(candidate, handoff(lastIndex));
+            Timing timing = timing(candidate, handoff(lastIndex), words);
             if (time >= timing.death) {
                 continue;
             }
             trim(time, alive);
-            held.add(create(mc, camera, candidate, timing, partialTicks, options));
+            held.add(create(mc, camera, candidate, timing, words, partialTicks, options));
         }
     }
 
@@ -262,7 +297,8 @@ public final class LyricParticles {
         Fragment fragment = new Fragment(title, Collections.emptyList(), time, time + ANNOUNCE_VISIBLE);
         Timing timing = new Timing(time, time + ANNOUNCE_VISIBLE, time + ANNOUNCE_VISIBLE + ANNOUNCE_EXIT,
                 ANNOUNCE_TIMING, ANNOUNCE_TIMING, ANNOUNCE_TIMING, ANNOUNCE_TIMING);
-        return create(mc, camera, fragment, timing, partialTicks, options);
+        // Анонс всегда идёт целиком, режим слов тут не применяется
+        return create(mc, camera, fragment, timing, false, partialTicks, options);
     }
 
     private long handoff(int index) {
@@ -295,15 +331,41 @@ public final class LyricParticles {
     }
 
     private Held create(MinecraftClient mc, Camera camera, Fragment fragment, Timing timing,
-                        float partialTicks, Options options) {
+                        boolean words, float partialTicks, Options options) {
         int index = spawnCount++;
-        int row = Math.floorMod(index, Math.max(1, options.limit()));
+        int slot = Math.floorMod(index, WORD_SIDES.length);
 
+        float offset;
+        float lift = options.height();
         float reach = options.radius();
-        float lift = options.height() + (options.limit() - 1 - row) * options.size() * LINE_STACK;
-        // Строки чередуются слева и справа от центра кадра
-        float offset = (index & 1) == 0 ? -1.0f : 1.0f;
-        offset *= sideRoom(options, fragment.text, reach);
+
+        if (!words) {
+            // Строки: чередуем слева/справа и складываем стопкой вверх
+            int row = Math.floorMod(index, Math.max(1, options.limit()));
+            offset = (slot & 1) == 0 ? -1.0f : 1.0f;
+            lift += (options.limit() - 1 - row) * options.size() * LINE_STACK;
+        } else if (LAYOUT_CIRCLE.equals(options.layout())) {
+            // 360: равномерно по кругу вокруг игрока, угол через золотой угол
+            lift += WORD_LIFTS[slot];
+            reach *= WORD_REACH[slot];
+            offset = Float.NaN;
+        } else if (LAYOUT_SCATTER.equals(options.layout())) {
+            // Вразброс: случайная высота и дистанция
+            offset = (random.nextFloat() - 0.5f) * 2.0f;
+            lift += (random.nextFloat() - 0.5f) * SCATTER_LIFT;
+            reach *= SCATTER_NEAR + random.nextFloat() * (SCATTER_FAR - SCATTER_NEAR);
+        } else {
+            // Стандарт: восемь фиксированных позиций вокруг игрока
+            offset = WORD_SIDES[slot];
+            lift += WORD_LIFTS[slot];
+            reach *= WORD_REACH[slot];
+        }
+
+        // NaN означает «угол задан явно градусами», иначе это доля свободного места
+        // по бокам кадра — так строка гарантированно влезает в экран.
+        offset = Float.isNaN(offset)
+                ? (float) index * GOLDEN_ANGLE % 360.0f
+                : offset * sideRoom(options, fragment.text, reach);
 
         float radians = (float) Math.toRadians(camera.getYaw() + offset);
         float directionX = -((float) Math.sin(radians));
@@ -654,31 +716,66 @@ public final class LyricParticles {
         return quarter + steps * (float) Math.PI;
     }
 
-    /** Нарезка текста на строки. Слова сохраняются — по ним подсвечивается поющееся. */
-    private static List<Fragment> split(Lyrics lyrics) {
+    /**
+     * Нарезка текста на куски.
+     *
+     * В режиме слов короткие слова (предлоги вроде «to» или «не») склеиваются со
+     * следующим: по отдельности они висят мелкими буквами и читаются хуже. Смещения
+     * слов пересчитываются от начала получившегося куска, чтобы они совпадали с его
+     * собственным текстом.
+     */
+    private static List<Fragment> split(Lyrics lyrics, boolean words) {
         List<Fragment> result = new ArrayList<>();
         for (LyricLine line : lyrics.lines()) {
-            if (line.text().isBlank()) {
+            String text = line.text();
+            if (text.isBlank()) {
                 continue;
             }
-            result.add(new Fragment(line.text(), line.words(),
-                    line.startMillis(), line.endMillis()));
+            List<LyricWord> source = line.words();
+            if (!words || source.isEmpty()) {
+                result.add(new Fragment(text, source, line.startMillis(), line.endMillis()));
+                continue;
+            }
+            for (int index = 0; index < source.size(); ) {
+                int take = index + 1 < source.size() && source.get(index).text().length() <= 4 ? 2 : 1;
+                LyricWord first = source.get(index);
+                LyricWord last = source.get(index + take - 1);
+
+                List<LyricWord> chunk = new ArrayList<>(take);
+                for (int offset = 0; offset < take; offset++) {
+                    LyricWord word = source.get(index + offset);
+                    chunk.add(new LyricWord(word.startMillis(), word.endMillis(), word.text(),
+                            word.begin() - first.begin(), word.end() - first.begin()));
+                }
+                result.add(new Fragment(text.substring(first.begin(), last.end()),
+                        List.copyOf(chunk), first.startMillis(), last.endMillis()));
+                index += take;
+            }
         }
         return List.copyOf(result);
     }
 
-    /** Раскладывает появление/уход строки по длительности: быстрее для коротких. */
-    private static Timing timing(Fragment fragment, long handoff) {
+    /**
+     * Раскладывает появление и уход куска по длительности.
+     *
+     * У строки границы шире: она живёт дольше. Слово появляется быстрее и живёт
+     * недолго, иначе на экране залипнет каша из слов.
+     */
+    private static Timing timing(Fragment fragment, long handoff, boolean words) {
+        float[] bounds = words ? WORD_BOUNDS : LINE_BOUNDS;
         float span = Math.max(1.0f, fragment.endMillis - fragment.startMillis);
-        float inTime = clamp(span * 0.22f, LINE_BOUNDS[0], LINE_BOUNDS[1]);
-        float inCascade = clamp(span * 0.3f, LINE_BOUNDS[2], LINE_BOUNDS[3]);
-        float outTime = clamp(span * 0.24f, LINE_BOUNDS[4], LINE_BOUNDS[5]);
-        float outCascade = clamp(span * 0.26f, LINE_BOUNDS[6], LINE_BOUNDS[7]);
+        float inTime = clamp(span * 0.22f, bounds[0], bounds[1]);
+        float inCascade = clamp(span * 0.3f, bounds[2], bounds[3]);
+        float outTime = clamp(span * 0.24f, bounds[4], bounds[5]);
+        float outCascade = clamp(span * 0.26f, bounds[6], bounds[7]);
 
         long spawn = fragment.startMillis;
         int exit = Math.round(outTime + outCascade);
         long entrance = spawn + Math.round(inTime + inCascade);
-        long visibleEnd = Math.max(Math.min(handoff - exit, spawn + LINE_TAIL), entrance);
+        long visibleEnd = words
+                ? Math.min(Math.max(fragment.endMillis + WORD_TAIL, spawn + WORD_MIN_VISIBLE), spawn + WORD_MAX_VISIBLE)
+                : Math.min(handoff - exit, spawn + LINE_TAIL);
+        visibleEnd = Math.max(visibleEnd, entrance);
         return new Timing(spawn, visibleEnd, visibleEnd + exit, inTime, inCascade, outTime, outCascade);
     }
 
@@ -867,7 +964,9 @@ public final class LyricParticles {
 
     // ------------------------------------------------------------------- настройки
 
-    public record Options(String fontName,
+    public record Options(boolean words,
+                          String layout,
+                          String fontName,
                           float size,
                           float opacity,
                           boolean throughWalls,

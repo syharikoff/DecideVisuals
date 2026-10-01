@@ -18,8 +18,6 @@ import ru.white.utils.animation.Animation;
 import ru.white.utils.animation.Easings;
 import ru.white.utils.render.lyrics.LyricText3D;
 
-import java.util.Locale;
-
 /**
  * Строки играющей песни висят в мире перед игроком. Порт «Lyrics Text» из Kimiko.
  *
@@ -51,6 +49,13 @@ public class LyricsText extends Module {
     private final LyricParticles lyrics = new LyricParticles();
 
     public DelimiterSetting textSeparator = new DelimiterSetting(this, "Текст");
+
+    public ModeSetting mode = new ModeSetting(this, "Показывать",
+            LyricParticles.MODE_LINES, LyricParticles.MODE_WORDS);
+
+    public ModeSetting layout = new ModeSetting(this, "Раскладка",
+            LyricParticles.LAYOUT_ARC, LyricParticles.LAYOUT_SCATTER, LyricParticles.LAYOUT_CIRCLE)
+            .setVisible(() -> mode.is(LyricParticles.MODE_WORDS));
 
     public ModeSetting font = new ModeSetting(this, "Шрифт", FONT_MANASCO, FONT_SF_PRO);
 
@@ -138,6 +143,8 @@ public class LyricsText extends Module {
     private LyricParticles.Options options() {
         float alpha = fade.get();
         return new LyricParticles.Options(
+                mode.is(LyricParticles.MODE_WORDS),
+                layout.getValue(),
                 fontId(),
                 size.getValue(),
                 opacity.getValue() * alpha,
