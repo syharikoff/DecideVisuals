@@ -3,6 +3,7 @@ package ru.white.mixin;
 import ru.white.Client;
 import ru.white.manager.event_impl.EventTick;
 import ru.white.screen.GuiCloseAnimation3D;
+import ru.white.screen.GuiCloseAnimationShatter;
 import ru.white.utils.math.DarkUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,7 +24,8 @@ public class ClientMixin {
 
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
     private void preventPauseDuringAnimation(Screen screen, CallbackInfo ci) {
-        if (GuiCloseAnimation3D.isActive() && screen instanceof GameMenuScreen) {
+        if (screen instanceof GameMenuScreen
+                && (GuiCloseAnimation3D.isActive() || GuiCloseAnimationShatter.isActive())) {
             ci.cancel();
         }
     }

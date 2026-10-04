@@ -6,8 +6,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import ru.white.Client;
 import ru.white.manager.DragComponent;
 import ru.white.manager.event_impl.EventDisplay;
+import ru.white.module.impl.render.GlassVapor;
+import ru.white.module.impl.render.WastedDeath;
+import ru.white.utils.render.wasted.WastedPipeline;
 import ru.white.module.impl.render.NoRender;
 import ru.white.screen.GuiCloseAnimation3D;
+import ru.white.screen.GuiCloseAnimationShatter;
 import ru.white.screen.Menu;
 import ru.white.utils.render.Render2D;
 import ru.white.inventorypreset.InventoryPresetOverlay;
@@ -62,6 +66,16 @@ public abstract class GameRenderMixin {
     @Final
     GuiRenderState guiState;
 
+    /** Wasted: обесцвечивание кадра до отрисовки GUI, чтобы HUD не выцвета��. */
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;render(Lcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", shift = At.Shift.BEFORE))
+    private void beforeGuiRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+        if (client.world == null || client.player == null) return;
+        // Glass Vapor: кадр к этому моменту уже собран в основном framebuffer
+GlassVapor.applyPending();
+        if (!WastedDeath.isRunning()) return;
+        WastedPipeline.apply(1.0f, 0.97f, 0.94f, 0.35f);
+    }
+
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;render(Lcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", shift = At.Shift.AFTER))
     private void afterGuiRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         if (client.world == null || client.player == null) return;
@@ -97,10 +111,11 @@ public abstract class GameRenderMixin {
         }
 
 
-
-
-
         guiRenderer.render(fogRenderer.getFogBuffer(FogRenderer.FogType.NONE));
+
+        // Анимация закрытия GUI "Shatter" (порт из Kimiko): осколки панели
+        // рисуются последним pass'ом, поверх HUD и всего остального кадра
+        GuiCloseAnimationShatter.render();
     }
 
 
@@ -186,7 +201,6 @@ public abstract class GameRenderMixin {
         if (GuiCloseAnimation3D.isActive()) {
             GuiCloseAnimation3D.render(view, tickDelta);
         }
-
         MatrixStack worldSpaceStack = new MatrixStack();
 
 

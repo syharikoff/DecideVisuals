@@ -21,9 +21,11 @@ import ru.white.module.api.settings.impl.ColorSetting;
 import ru.white.module.api.settings.impl.ModeSetting;
 import ru.white.module.api.settings.impl.SliderSetting;
 import ru.white.utils.colors.ColorUtil;
+import ru.white.utils.render.KimikoDissolve;
 import ru.white.utils.render.killeffect.EffectCatalog;
 import ru.white.utils.render.killeffect.EffectManager;
 import ru.white.utils.render.killeffect.EffectRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderSetup;
@@ -97,6 +99,7 @@ public class KillEffect extends Module implements ModulePreview {
         DISPLAY_NAMES.put("kfx_magnetic_resonance", "Magnetic Resonance");
         DISPLAY_NAMES.put("kfx_origami_fold", "Origami Fold");
         DISPLAY_NAMES.put("kfx_pure_form", "Pure Form");
+    DISPLAY_NAMES.put("kimiko_dissolve", "Dissolve");
     }
 
     public ModeSetting effectType;
@@ -114,6 +117,19 @@ public class KillEffect extends Module implements ModulePreview {
             .setVisible(this::isBeam);
     public SliderSetting beamWidth = new SliderSetting(this, "Beam width", 0.42F, 0.08F, 1.2F, 0.02F)
             .setVisible(this::isBeam);
+
+    public SliderSetting dissolveCount = new SliderSetting(this, "Particles", 1400, 100, 4000, 50)
+            .setVisible(this::isKimikoDissolve);
+    public SliderSetting dissolveSize = new SliderSetting(this, "Particle size", 0.12F, 0.045F, 0.22F, 0.005F)
+            .setVisible(this::isKimikoDissolve);
+    public SliderSetting dissolveHold = new SliderSetting(this, "Hold", 550, 0, 2000, 25)
+            .setVisible(this::isKimikoDissolve);
+    public SliderSetting dissolveFade = new SliderSetting(this, "Fade", 1300, 250, 2400, 25)
+            .setVisible(this::isKimikoDissolve);
+    public SliderSetting dissolveRise = new SliderSetting(this, "Rise", 1.4F, 0.35F, 3.5F, 0.05F)
+            .setVisible(this::isKimikoDissolve);
+    public SliderSetting dissolveChaos = new SliderSetting(this, "Chaos", 1.0F, 0.0F, 2.5F, 0.05F)
+            .setVisible(this::isKimikoDissolve);
 
     {
         effectType = new ModeSetting(this, "Effect",
@@ -141,6 +157,10 @@ public class KillEffect extends Module implements ModulePreview {
 
     private boolean isBeam() {
         return "Beam".equals(getEffectId());
+    }
+
+    private boolean isKimikoDissolve() {
+        return "kimiko_dissolve".equals(getEffectId());
     }
 
     private String getEffectId() {
@@ -186,7 +206,12 @@ public class KillEffect extends Module implements ModulePreview {
     @Override
     public void previewSpawn(PreviewContext ctx) {
         LivingEntity target = ctx.dummy();
-        if (!isBeam()) {
+        if (isKimikoDissolve()) {
+            LivingEntity source = target != null ? target : mc.player;
+            if (source != null) {
+                KimikoDissolve.get().queue(source, partialTick(), dissolveSettings());
+            }
+        } else if (!isBeam()) {
             Vec3d pos = target != null ? target.getEntityPos() : ctx.anchor();
             spawnBBEffect(pos, target != null ? target : mc.player);
         } else {
@@ -237,6 +262,8 @@ public class KillEffect extends Module implements ModulePreview {
         if (isBeam()) {
             KillPoint p = allowCachedPoint && lastPoint != null ? lastPoint : point(entity);
             beams.add(new KillBeam(p));
+        } else if (isKimikoDissolve()) {
+            KimikoDissolve.get().queue(entity, partialTick(), dissolveSettings());
         } else {
             spawnBBEffect(entity.getEntityPos(), entity);
         }
@@ -277,12 +304,53 @@ public class KillEffect extends Module implements ModulePreview {
         return new KillPoint(entity.getEntityPos(), Math.max(0.65F, entity.getWidth()));
     }
 
+    private float partialTick() {
+        try {
+            return mc.getRenderTickCounter().getTickProgress(false);
+        } catch (Throwable ignored) {
+            return 0.0F;
+        }
+    }
+
+    private KimikoDissolve.Settings dissolveSettings() {
+        return new KimikoDissolve.Settings(
+                dissolveCount.getValue().intValue(),
+                dissolveSize.getValue(),
+                dissolveHold.getValue().longValue(),
+                dissolveFade.getValue().longValue(),
+                dissolveRise.getValue(),
+                dissolveChaos.getValue());
+    }
+
+    /** Разбрасывает частицы по оттенкам вокруг базового цвета. */
+    public static KillEffect getInstance() {
+        return ru.white.utils.other.Instance.get(KillEffect.class);
+    }
+
+    private static int applySeed(int base, int seed) {
+        float jitter = ((seed & 0xFF) / 255.0F - 0.5F) * 0.55F;
+        int r = MathHelper.clamp((int) (((base >> 16) & 0xFF) * (1.0F + jitter)), 0, 255);
+        int g = MathHelper.clamp((int) (((base >> 8) & 0xFF) * (1.0F + jitter * 0.7F)), 0, 255);
+        int b = MathHelper.clamp((int) ((base & 0xFF) * (1.0F + jitter * 1.3F)), 0, 255);
+        return 0xFF000000 | (r << 16) | (g << 8) | b;
+    }
+
     @EventHandler
     public void onRender3D(EventRender3D e) {
         if (mc.player == null || mc.world == null) return;
 
         MatrixStack matrices = e.getMatrixStack();
         Vec3d cam = mc.gameRenderer.getCamera().getCameraPos();
+
+        if (isKimikoDissolve()) {
+            KimikoDissolve.get().render(matrices, cam, dissolveSettings(), seed -> {
+                if (typeColor.is("Custom")) {
+                    return applySeed(tintColor.getValue(), seed);
+                }
+                return applySeed(ColorUtil.getClientColor1(1), seed);
+            }, partialTick());
+            return;
+    }
 
         if (!isBeam()) {
             List<EffectManager.ActiveEffect> active = effectManager.active();
@@ -407,6 +475,7 @@ public class KillEffect extends Module implements ModulePreview {
 
     private void clearState() {
         beams.clear();
+        KimikoDissolve.clear();
         lastTarget = null;
         lastPoint = null;
         lastTargetId = -1;

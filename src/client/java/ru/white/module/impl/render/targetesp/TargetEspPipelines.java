@@ -49,6 +49,14 @@ public final class TargetEspPipelines {
         return MinecraftClient.getInstance().gameRenderer.getCamera().getRotation();
     }
 
+    public static float cameraYaw() {
+        return MinecraftClient.getInstance().gameRenderer.getCamera().getYaw();
+    }
+
+    public static net.minecraft.util.math.Vec3d cameraPos() {
+        return MinecraftClient.getInstance().gameRenderer.getCamera().getCameraPos();
+    }
+
     public static void textured(VertexConsumer consumer, Matrix4f matrix, float x, float y, float z, float u, float v, int color) {
         consumer.vertex(matrix, x, y, z).color(color).texture(u, v)
                 .overlay(net.minecraft.client.render.OverlayTexture.DEFAULT_UV)

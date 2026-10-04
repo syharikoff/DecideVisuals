@@ -34,7 +34,7 @@ public class ClickGui extends Module {
             new BooleanSetting("Свечение", true),
             new BooleanSetting("Точки", true));
 
-    public ModeSetting closeAnimation = new ModeSetting(this, "Анимация закрытия", "Default", "3D");
+    public ModeSetting closeAnimation = new ModeSetting(this, "Анимация закрытия", "Default", "3D", "Shatter");
 
     public SliderSetting size = new SliderSetting(this,"Размер",1.0F,0.5F,1.5F,0.1F);
 

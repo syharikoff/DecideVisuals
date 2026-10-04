@@ -13,5 +13,15 @@
       "wvisual:entity/ribbit_step1",
       "wvisual:entity/ribbit_step2"
     ]
+  },
+  "wasted": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "wvisual:wasted",
+        "stream": false,
+        "attenuation_distance": 64
+      }
+    ]
   }
 }

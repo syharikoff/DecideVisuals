@@ -4,11 +4,13 @@ package ru.white.mixin;
 import ru.white.manager.event_impl.EventJump;
 import ru.white.manager.event_impl.SwingDurationEvent;
 import ru.white.module.impl.player.NoDelay;
+import ru.white.module.impl.render.ModelCollapse;
 import ru.white.module.impl.utils.consumable.ConsumableHandler;
 import ru.white.utils.annotation.IMinecraft;
 import ru.white.utils.math.MathUtil;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
@@ -84,6 +86,18 @@ public abstract class LivingEntityMixin implements IMinecraft {
         }
     }
 
+    /** Model Collapse: подтверждённая смерть — ловим напрямую. */
+    @Inject(method = "onDeath", at = @At("HEAD"))
+    private void onDeathCollapse(DamageSource source, CallbackInfo ci) {
+        ModelCollapse.notifyEntityDied((LivingEntity) (Object) this);
+    }
 
+    /** Запасной путь: сервер может убить без вызова onDeath, просто обнулив HP. */
+    @Inject(method = "setHealth", at = @At("HEAD"))
+    private void onSetHealthCollapse(float health, CallbackInfo ci) {
+        if (health > 0.0f) return;
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (self.getHealth() > 0.0f) ModelCollapse.notifyEntityDied(self);
+    }
 
 }

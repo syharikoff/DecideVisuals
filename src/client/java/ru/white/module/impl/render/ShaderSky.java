@@ -19,7 +19,7 @@ public class ShaderSky extends Module {
 
     private static ShaderSky instance;
 
-    public ModeSetting mode = new ModeSetting(this, "Режим",  "Aurora", "Night", "Snow", "Sky", "Star", "Glow", "Full", "WebShader", "Plasma", "ChamsFill", "BaseWarp", "Waves", "PhobAurora", "BlackHole", "Galaxy");
+    public ModeSetting mode = new ModeSetting(this, "Режим",  "Aurora", "Night", "Snow", "Sky", "Star", "Glow", "Full", "WebShader", "Plasma", "ChamsFill", "BaseWarp", "Waves", "PhobAurora", "BlackHole", "Galaxy", "MilkyWay", "Origin", "QuantumNebula", "Space", "SpiralGalaxy");
     public SliderSetting intensity = new SliderSetting(this, "Сила",
             1.0f, 0.1f, 1.0f, 0.05f);
    // public SliderSetting blurRadius = new SliderSetting(this, "Сила размытия", 3.0f, 1.0f, 8.0f, 0.5f)
@@ -32,6 +32,9 @@ public class ShaderSky extends Module {
           ;
     public SliderSetting stars = new SliderSetting(this, "Звёзды", 0.75f, 0.0f, 1.0f, 0.05f)
 ;
+    /** Позиция солнца на сутках 0..1 — от неё считается направление на луну (режим Origin). */
+    public SliderSetting sunAngle = new SliderSetting(this, "Солнце", 0.0f, 0.0f, 1.0f, 0.01f)
+            .setVisible(() -> mode.is("Origin"));
 
 
     public ModeSetting typeColor = new ModeSetting(this,"Режим цвета","Тема","Свой");

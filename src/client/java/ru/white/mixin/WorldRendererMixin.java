@@ -6,7 +6,11 @@ import ru.white.manager.event_impl.EventRender3D;
 import ru.white.module.impl.render.NoRender;
 import ru.white.module.impl.render.ShaderEsp;
 import ru.white.module.impl.render.ShaderSky;
+import ru.white.module.impl.render.ExplosionWave;
+
+import ru.white.module.impl.render.JumpCircle;
 import ru.white.utils.render.ShaderSkyRenderer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.render.BuiltChunkStorage;
 import net.minecraft.client.render.Camera;
@@ -79,6 +83,24 @@ public class WorldRendererMixin {
         ShaderSky shaderSky = ShaderSky.getInstance();
         if (shaderSky != null && shaderSky.isEnabled()) {
             ShaderSkyRenderer.getInstance().renderSky();
+        }
+
+        // Jump Circle в режиме «Разлом» — пост-проход по готовому кадру
+        JumpCircle jumpCircle = JumpCircle.getInstance();
+        if (jumpCircle != null && jumpCircle.isEnabled()) {
+            try {
+                jumpCircle.renderSouls(MinecraftClient.getInstance().getFramebuffer(), positionMatrix, projectionMatrix);
+            } catch (Throwable ignored) {
+            }
+        }
+
+        // Explosion Wave — ударная волна по кадру
+        ExplosionWave explosionWave = ExplosionWave.getInstance();
+        if (explosionWave != null && explosionWave.isEnabled()) {
+            try {
+                explosionWave.renderWaves(MinecraftClient.getInstance().getFramebuffer(), positionMatrix, projectionMatrix);
+            } catch (Throwable ignored) {
+            }
         }
     }
 

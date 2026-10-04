@@ -339,6 +339,7 @@ public class Menu extends Screen implements IMinecraft {
     protected void init() {
         exit = false;
         use3DAnim = false;
+        GuiCloseAnimationShatter.cancel();
         searchActive = false;
         searchTypeTime = System.currentTimeMillis();
         bindingModule = null;
@@ -2036,13 +2037,20 @@ public class Menu extends Screen implements IMinecraft {
             return false;
         }
         if (!exit) {
-            ClickGui clickGui = Client.get().moduleManager().get(ClickGui.class);
-            use3DAnim = clickGui != null && clickGui.closeAnimation.is("3D");
-            if (use3DAnim) {
-                GuiCloseAnimation3D.start();
+ClickGui clickGui = Client.get().moduleManager().get(ClickGui.class);
+        use3DAnim = clickGui != null && clickGui.closeAnimation.is("3D");
+        if (use3DAnim) {
+            GuiCloseAnimation3D.start();
+            GuiSounds.close();
+            return false;
+        }
+        if (clickGui != null && clickGui.closeAnimation.is("Shatter")) {
+            if (GuiCloseAnimationShatter.start()) {
                 GuiSounds.close();
+                GuiMusicPlayer.stop();
                 return false;
             }
+        }
             glomalAnim.run(0, 0.3F, Easings.SINE_IN);
             exit = true;
             GuiSounds.close();

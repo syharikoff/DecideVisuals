@@ -4,6 +4,8 @@ import ru.white.manager.event_impl.CameraPositionEvent;
 import ru.white.manager.event_impl.EventRotation;
 import ru.white.manager.rotation.RotationProcess;
 import ru.white.module.impl.render.NoRender;
+import ru.white.module.impl.render.WastedDeath;
+import ru.white.utils.render.wasted.WastedState;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
@@ -49,6 +51,13 @@ public abstract class CameraMixin {
 
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)
     private void onClipToSpace(float desiredCameraDistance, CallbackInfoReturnable<Float> cir) {
+        // Wasted: камера сама отлетает от тела, отключаем клиппинг по стенам
+        WastedDeath wasted = WastedDeath.getInstance();
+        if (wasted != null && WastedDeath.isRunning() && wasted.orbitEnabled()) {
+            cir.setReturnValue(wasted.orbitDistanceNow());
+            return;
+        }
+
         NoRender noRender = NoRender.getInstance();
         if (noRender != null && noRender.isEnabled() && noRender.noCameraClip.getValue()) {
             cir.setReturnValue(desiredCameraDistance);
@@ -57,6 +66,23 @@ public abstract class CameraMixin {
 
     @Shadow
     public abstract void setRotation(float yaw, float pitch);
+
+    /** Wasted: отрываем камеру от тела на орбиту. */
+    @Inject(method = "update", at = @At("TAIL"))
+    private void onWastedOrbit(World area, Entity focusedEntity, boolean thirdPerson,
+                               boolean inverseView, float tickProgress, CallbackInfo ci) {
+        WastedDeath wasted = WastedDeath.getInstance();
+        if (wasted == null || !WastedDeath.isRunning() || !wasted.orbitEnabled()) return;
+
+        this.setRotation(wasted.orbitYaw(), wasted.orbitPitch());
+
+        if (!WastedState.isDetached()) return;
+        Vec3d position = wasted.orbitPosition();
+        this.setPos(position.x, position.y, position.z);
+    }
+
+    @Shadow
+    public abstract void setPos(double x, double y, double z);
 
     @Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
     private void redirectSetRotation(Camera instance, float yaw, float pitch) {

@@ -20,7 +20,9 @@ import ru.white.module.api.settings.impl.SliderSetting;
 import ru.white.module.impl.render.targetesp.ChainTargetEspRenderer;
 import ru.white.module.impl.render.targetesp.CrystalTargetEspRenderer;
 import ru.white.module.impl.render.targetesp.CrossTargetEspRenderer;
+import ru.white.module.impl.render.targetesp.DimaEspPipelines;
 import ru.white.module.impl.render.targetesp.MarkerTargetEspRenderer;
+import ru.white.module.impl.render.targetesp.PentagonTargetEspRenderer;
 import ru.white.module.impl.render.targetesp.RhombTargetEspRenderer;
 import ru.white.module.impl.render.targetesp.SkullTargetEspRenderer;
 import ru.white.module.impl.render.targetesp.TargetEspRenderContext;
@@ -56,7 +58,7 @@ public class TargetEsp extends Module implements ModulePreview {
 
     public ButtonSetting previewButton = PreviewSettings.button(this);
 
-    public ModeSetting type = new ModeSetting(this,"Режим","Призраки","Кольцо","Бублик","Кубики","Цепь","Кристаллы","Маркер","Ромб","Череп","Вихрь","Скобы","Кресты");
+    public ModeSetting type = new ModeSetting(this,"Режим","Призраки","Кольцо","Бублик","Кубики","Цепь","Кристаллы","Маркер","Ромб","Череп","Вихрь","Скобы","Кресты","Пентаграмма");
 
     public ModeSetting typeGhost = new ModeSetting(this,"Тип призраков","1","2","3","4").setVisible(() -> type.is("Призраки"));;
 
@@ -817,7 +819,7 @@ public class TargetEsp extends Module implements ModulePreview {
         // ─────────── НОВЫЕ РЕЖИМЫ (порт из Polairis) ───────────
         boolean newMode = type.is("Цепь") || type.is("Кристаллы") || type.is("Маркер")
                 || type.is("Ромб") || type.is("Череп") || type.is("Вихрь") || type.is("Скобы")
-                || type.is("Кресты");
+                || type.is("Кресты") || type.is("Пентаграмма");
         if (alphaPC > 0.001f && target != null && newMode) {
             int hurtTicks = target.hurtTime;
             float hurtPC = MathHelper.clamp((float) Math.sin(hurtTicks * (Math.PI / 10.0)), 0.0f, 1.0f);
@@ -861,6 +863,8 @@ public class TargetEsp extends Module implements ModulePreview {
                         ctx.target(), crossesFillAlpha.getValue(), ctx.partialTicks(), ctx.frameTimeMs(),
                         ctx.primaryColor(), ctx.secondaryColor(), ctx.hurtProgress(), ctx.chainImpactProgress());
                 CrossTargetEspRenderer.render(matrices, immediate, crossCtx, speed);
+            } else if (type.is("Пентаграмма")) {
+                PentagonTargetEspRenderer.render(matrices, immediate, ctx, speed);
             }
 
             matrices.pop();
@@ -901,7 +905,7 @@ public class TargetEsp extends Module implements ModulePreview {
     );
     public static final RenderLayer RING_FILL_LAYER = RenderLayer.of("ring_esp_fill",
             RenderSetup.builder(RING_FILL_PIPELINE).expectedBufferSize(1 << 16).build());
-    private static final RenderLayer RING_LINE_LAYER = RenderLayer.of("ring_esp_line",
+    public static final RenderLayer RING_LINE_LAYER = RenderLayer.of("ring_esp_line",
             RenderSetup.builder(RING_LINE_PIPELINE).expectedBufferSize(1 << 14).build());
 
     public static final RenderPipeline ROMB_ESP_PIPELINE = RenderPipelines.register(

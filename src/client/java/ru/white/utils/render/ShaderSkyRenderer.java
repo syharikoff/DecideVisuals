@@ -197,7 +197,7 @@ public class ShaderSkyRenderer {
         dataBuffer.putFloat(module.intensity.getValue());
         dataBuffer.putFloat(module.stars.getValue());
         dataBuffer.putFloat(module.vanillaSky.getValue() ? 1.0f : 0.0f);
-        dataBuffer.putFloat(0.0f);
+        dataBuffer.putFloat(module.sunAngle.getValue());
         dataBuffer.putFloat(0.0f);
         dataBuffer.flip();
 
@@ -248,6 +248,11 @@ public class ShaderSkyRenderer {
             case "PhobAurora" -> 12;
             case "BlackHole" -> 13;
             case "Galaxy" -> 14;
+            case "MilkyWay" -> 15;
+            case "Origin" -> 16;
+            case "QuantumNebula" -> 17;
+            case "AmbGalaxy", "Space" -> 18;
+            case "SpiralGalaxy" -> 19;
             default -> 0;
         };
     }

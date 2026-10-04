@@ -152,10 +152,12 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
+    // Toolchain задаём ВСЕГДА, а не только когда текущая JVM ниже 21.
+    // Причина: на Java 25 Gradle раньше оставлял сборку/запуск на 25-й,
+    // из-за чего netty терял sun.misc.Unsafe, а Mixin отклонял миксины Sodium
+    // ("Class version 65 required is higher than ..."), и клиент рисовал
+    // пустой кадр. Minecraft 1.21.11 + Sodium требуют именно Java 21.
+    toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     withSourcesJar()
 }
 

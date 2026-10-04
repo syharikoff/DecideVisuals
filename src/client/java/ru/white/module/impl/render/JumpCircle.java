@@ -47,9 +47,13 @@ import java.util.function.Function;
 public class JumpCircle extends Module implements ModulePreview {
     private final List<Circle> circles = new ArrayList<>();
 
+    public static JumpCircle getInstance() {
+        return ru.white.utils.other.Instance.get(JumpCircle.class);
+    }
+
     public ButtonSetting previewButton = PreviewSettings.button(this);
 
-    public ModeSetting circleMode = new ModeSetting(this, "Круг", "Gradient", "Evola", "Ring");
+    public ModeSetting circleMode = new ModeSetting(this, "Круг", "Gradient", "Evola", "Ring", "Разлом");
     public ModeSetting animMode = new ModeSetting(this, "Анимация", "Bounce", "Smooth", "Elastic", "Spring", "Expo");
     public SliderSetting size_c = new SliderSetting(this, "Размер", 1, 0.2F, 3, 0.1F);
     public BooleanSetting glow = new BooleanSetting(this, "Свечение", true).setVisible(() -> circleMode.is("Gradient"));
@@ -61,9 +65,39 @@ public class JumpCircle extends Module implements ModulePreview {
     public ModeSetting ringEasing = new ModeSetting(this, "Анимация кольца", "Обычная", "Обычная", "Эластичная", "Назад")
             .setVisible(() -> circleMode.is("Ring"));
     public ModeSetting ringColorMode = new ModeSetting(this, "Цвет кольца", "Радуга", "Радуга", "Клиент", "Свой")
-            .setVisible(() -> circleMode.is("Ring"));
+            .setVisible(() -> circleMode.is("Ring") || circleMode.is("Разлом"));
     public ColorSetting ringColor = new ColorSetting(this, "Свой цвет кольца", 0xFFFFFFFF)
-            .setVisible(() -> circleMode.is("Ring") && ringColorMode.is("Свой"));
+            .setVisible(() -> (circleMode.is("Ring") || circleMode.is("Разлом")) && ringColorMode.is("Свой"));
+    public BooleanSetting ringSecondColor = new BooleanSetting(this, "Второй цвет", false)
+            .setVisible(() -> (circleMode.is("Ring") || circleMode.is("Разлом")) && ringColorMode.is("Свой"));
+    public ColorSetting ringColor2 = new ColorSetting(this, "Второй цвет кольца", 0xFF101010)
+            .setVisible(() -> (circleMode.is("Ring") || circleMode.is("Разлом"))
+                    && ringColorMode.is("Свой") && ringSecondColor.getValue());
+
+    // ───────────────────────────── разлом (порт Kimiko «Разлом») ─────────────────────────────
+
+    public SliderSetting fractureTime = new SliderSetting(this, "Время жизни разлома", 1950, 500, 5000, 50)
+            .setVisible(this::isFracture);
+    public SliderSetting fractureCount = new SliderSetting(this, "Количество трещин", 10, 4, 16, 1)
+            .setVisible(this::isFracture);
+    public SliderSetting fractureChaos = new SliderSetting(this, "Хаос", 1.0F, 0.3F, 2.0F, 0.1F)
+            .setVisible(this::isFracture);
+    public SliderSetting fractureWidth = new SliderSetting(this, "Толщина тела", 1.0F, 0.5F, 2.0F, 0.1F)
+            .setVisible(this::isFracture);
+    public BooleanSetting fractureGlowEnabled = new BooleanSetting(this, "Свечение", true)
+            .setVisible(this::isFracture);
+    public SliderSetting fractureGlow = new SliderSetting(this, "Сила свечения", 1.0F, 0.1F, 2.5F, 0.1F)
+            .setVisible(() -> isFracture() && fractureGlowEnabled.getValue());
+    public SliderSetting fractureGlowHeight = new SliderSetting(this, "Высота столба", 30F, 10F, 100F, 1F)
+            .setVisible(() -> isFracture() && fractureGlowEnabled.getValue());
+    public SliderSetting fractureCore = new SliderSetting(this, "Белое ядро", 100F, 0F, 100F, 5F)
+            .setVisible(this::isFracture);
+    public BooleanSetting fractureSparks = new BooleanSetting(this, "Искры", true)
+            .setVisible(this::isFracture);
+
+    private boolean isFracture() {
+        return circleMode.is("Разлом");
+    }
 
     private final PreviewSettings previewSettings = PreviewSettings.of(this, 3.5F, 0F, 2F);
 
@@ -150,13 +184,19 @@ public class JumpCircle extends Module implements ModulePreview {
             return;
         }
 
-
-        long maxLife = circleMode.is("Ring") ? ringTime.getValue().longValue() : 2500L;
+        long maxLife = circleMode.is("Ring") ? ringTime.getValue().longValue()
+                : (isFracture() ? fractureTime.getValue().longValue() : 2500L);
         circles.removeIf(c -> System.currentTimeMillis() - c.time > maxLife);
 
         if (circles.isEmpty()) {
             return;
         }
+
+        if (isFracture()) {
+            // разлом рисуется отдельным пост-проходом после мира (см. renderSouls)
+            return;
+        }
+
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(allocator);
         MatrixStack pose = e.getMatrixStack();
 
@@ -374,11 +414,141 @@ public class JumpCircle extends Module implements ModulePreview {
         buffer.vertex(matrix, x1, y2, 0.0f).color(ColorUtil.replAlpha(ints[3],alpha)).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV).light(0xF000F0).normal(normal.x, normal.y, normal.z);
     }
 
+    // ───────────────────────────── разлом: пост-проход после мира ─────────────────────────────
+
+    private static final int SOULS_MAX_CIRCLES = 16;
+    private static final double WOBBLE_PERIOD = 628.3185307179587;
+
+    private final Matrix4f fractureInvViewProj = new Matrix4f();
+    private final float[] fractureUniform = new float[ru.white.utils.render.JumpSoulsPipeline.UNIFORM_FLOATS];
+
+    /**
+     * Вызывается из WorldRendererMixin в конце WorldRenderer.render.
+     * Трещины строятся шейдером по экранному пространству, поэтому нужны
+     * позиционная/проекционная матрицы и копия depth-буфера.
+     */
+    public void renderSouls(net.minecraft.client.gl.Framebuffer target, Matrix4f positionMatrix,
+                            Matrix4f projectionMatrix) {
+        if (!isEnabled() || !isFracture()) return;
+        if (target == null || positionMatrix == null || projectionMatrix == null) return;
+        if (circles.isEmpty() || mc.gameRenderer == null || mc.gameRenderer.getCamera() == null) return;
+        if (target.textureWidth <= 0 || target.textureHeight <= 0) return;
+
+        Vec3d cam = mc.gameRenderer.getCamera().getCameraPos();
+        float maxLife = Math.max(1.0F, fractureTime.getValue());
+        float maxRadius = Math.max(0.05F, size_c.getValue() * 0.75F);
+
+        this.fractureInvViewProj.set(projectionMatrix).mul(positionMatrix).invert();
+
+        float[] data = this.fractureUniform;
+        int count = 0;
+        float gradientIndex = 0.0F;
+        boolean staticPalette = isStaticPalette();
+        int staticColor = staticPalette ? fractureColor(0, 1.0F) : 0;
+        long now = System.currentTimeMillis();
+
+        for (int i = circles.size() - 1; i >= 0; i--) {
+            Circle c = circles.get(i);
+            float progress = (now - c.time) / maxLife;
+            if (progress < 0.0F || progress >= 1.0F) continue;
+
+            if (count >= SOULS_MAX_CIRCLES) break;
+
+            float fadeInRaw = MathHelper.clamp(progress / 0.12F, 0.0F, 1.0F);
+            float fadeIn = fadeInRaw * fadeInRaw * (3.0F - 2.0F * fadeInRaw);
+            float fadeOut = MathHelper.clamp((1.0F - progress) / 0.08F, 0.0F, 1.0F);
+            float env = fadeIn * fadeOut;
+
+            int base = 28 + count * 8;
+            data[base] = (float) (c.vector3d.x - cam.x);
+            data[base + 1] = (float) (c.vector3d.y - cam.y);
+            data[base + 2] = (float) (c.vector3d.z - cam.z);
+            data[base + 3] = progress;
+            data[base + 4] = maxRadius;
+            data[base + 5] = c.seed;
+            data[base + 6] = env;
+            data[base + 7] = maxRadius * fractureGlowHeight.getValue() / 100.0F * 1.2F;
+
+            int cbase = 156 + count * 16;
+            if (staticPalette) {
+                putColor(data, cbase, staticColor);
+                putColor(data, cbase + 4, staticColor);
+                putColor(data, cbase + 8, staticColor);
+                putColor(data, cbase + 12, staticColor);
+            } else {
+                int idx = (int) gradientIndex;
+                putColor(data, cbase, fractureColor(idx, 1.0F));
+                putColor(data, cbase + 4, fractureColor(90 + idx, 1.0F));
+                putColor(data, cbase + 8, fractureColor(180 + idx, 1.0F));
+                putColor(data, cbase + 12, fractureColor(270 + idx, 1.0F));
+            }
+
+            gradientIndex += 45.0F * (1.0F - progress);
+            count++;
+        }
+
+        if (count == 0) return;
+
+        double wobbleSeconds = now / 1000.0;
+        wobbleSeconds -= Math.floor(wobbleSeconds / WOBBLE_PERIOD) * WOBBLE_PERIOD;
+
+        data[0] = count;
+        data[1] = (float) wobbleSeconds;
+        data[2] = fractureCount.getValue();
+        data[3] = fractureChaos.getValue();
+        data[4] = fractureWidth.getValue();
+        data[5] = fractureGlowEnabled.getValue() ? fractureGlow.getValue() : 0.0F;
+        data[6] = fractureSparks.getValue() ? 1.0F : 0.0F;
+        data[7] = MathHelper.clamp(fractureCore.getValue() / 100.0F, 0.0F, 1.0F);
+        this.fractureInvViewProj.get(data, 12);
+
+        ru.white.utils.render.JumpSoulsPipeline.apply(target, data);
+    }
+
+    /** Один свой цвет — палитра статична, иначе плавный перелив между двумя. */
+    private boolean isStaticPalette() {
+        if (!ringColorMode.is("Свой")) return false;
+        if (!ringSecondColor.getValue()) return true;
+        return ringColor.getValue() == ringColor2.getValue();
+    }
+
+    private int fractureColor(int angle, float rawAlpha) {
+        if (ringColorMode.is("Радуга")) {
+            return ColorUtil.rainbow(8, angle, 1.0F, 1.0F, rawAlpha);
+        }
+        if (ringColorMode.is("Клиент")) {
+            int client = ColorUtil.client();
+            return ColorUtil.multAlpha(ColorUtil.interpolateColor(
+                    client, ColorUtil.multDark(client, 0.45F), ((angle % 360) + 360) % 360 / 360.0F), rawAlpha);
+        }
+        int first = ringColor.getValue();
+        int second = ringSecondColor.getValue() ? ringColor2.getValue() : first;
+        if (first == second) {
+            return ColorUtil.multAlpha(first, rawAlpha);
+        }
+        return ColorUtil.multAlpha(ColorUtil.fadeBetween(8, angle, first, second), rawAlpha);
+    }
+
+    private static void putColor(float[] dst, int offset, int argb) {
+        dst[offset] = ((argb >> 16) & 0xFF) / 255.0F;
+        dst[offset + 1] = ((argb >> 8) & 0xFF) / 255.0F;
+        dst[offset + 2] = (argb & 0xFF) / 255.0F;
+        dst[offset + 3] = ((argb >>> 24) & 0xFF) / 255.0F;
+    }
+
+    @Override
+    protected void onDisable() {
+        super.onDisable();
+        circles.clear();
+        ru.white.utils.render.JumpSoulsPipeline.clear();
+    }
+
     private class Circle {
 
         private final Vec3d vector3d;
 
         private final long time;
+        private final float seed;
         private final Animation animation = new Animation();
         private final Animation animation2 = new Animation();
         private boolean isBack;
@@ -386,6 +556,7 @@ public class JumpCircle extends Module implements ModulePreview {
         public Circle(Vec3d vector3d) {
             this.vector3d = vector3d;
             time = System.currentTimeMillis();
+            seed = (float) (Math.random() * 1000.0);
             animation2.run(1.0, 0.8, getExpandEasing());
             animation.run(1.0, 0.4, Easings.SINE_OUT);
         }
