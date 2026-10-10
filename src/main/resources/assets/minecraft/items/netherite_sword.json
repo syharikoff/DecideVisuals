@@ -5,480 +5,480 @@
     "index": 0,
     "cases": [
       {
-        "when": "wvisual:item_replacer:Pheonix Grace",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/pheonixgrace" }
+        "when": "decide:item_replacer:Pheonix Grace",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/pheonixgrace" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Abominable Great Saber",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/abominablegreatsaber" }
+        "when": "decide:item_replacer:Abominable Great Saber",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/abominablegreatsaber" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Abominable Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/abominableblade" }
+        "when": "decide:item_replacer:Abominable Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/abominableblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Abominable Scythe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/abominablescythe" }
+        "when": "decide:item_replacer:Abominable Scythe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/abominablescythe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Acidic Cleaver",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/aciddemon" }
+        "when": "decide:item_replacer:Acidic Cleaver",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/aciddemon" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Amethyst Shuriken",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/amethyst_shuriken" }
+        "when": "decide:item_replacer:Amethyst Shuriken",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/amethyst_shuriken" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Ancient Royal Great Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/ancient_royal_great_sword" }
+        "when": "decide:item_replacer:Ancient Royal Great Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/ancient_royal_great_sword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Aquatic Sacred Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/aquantic_sacred_blade" }
+        "when": "decide:item_replacer:Aquatic Sacred Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/aquantic_sacred_blade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Ocean's Rage",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/aquantictrident" }
+        "when": "decide:item_replacer:Ocean's Rage",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/aquantictrident" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Ashura's Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/ashura_blade" }
+        "when": "decide:item_replacer:Ashura's Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/ashura_blade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Blood Edge",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/bloodedge" }
+        "when": "decide:item_replacer:Blood Edge",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/bloodedge" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Bloody Death",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/bloodydeath" }
+        "when": "decide:item_replacer:Bloody Death",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/bloodydeath" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Carian Knight's Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cariansword" }
+        "when": "decide:item_replacer:Carian Knight's Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cariansword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Chrono Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/chrono_blade" }
+        "when": "decide:item_replacer:Chrono Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/chrono_blade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Corrupted Mythic Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/corruptedmythicblade" }
+        "when": "decide:item_replacer:Corrupted Mythic Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/corruptedmythicblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Creation Splitter",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/creationsplitter" }
+        "when": "decide:item_replacer:Creation Splitter",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/creationsplitter" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Crescent Rose",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/crescentrose" }
+        "when": "decide:item_replacer:Crescent Rose",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/crescentrose" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Cyber Katana",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cyberkatana" }
+        "when": "decide:item_replacer:Cyber Katana",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cyberkatana" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Cyber Mantis Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cybermantisblade" }
+        "when": "decide:item_replacer:Cyber Mantis Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cybermantisblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Cybernetic Katana",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cybernetickatana" }
+        "when": "decide:item_replacer:Cybernetic Katana",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cybernetickatana" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Cybernetic Knife",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cyberneticknife" }
+        "when": "decide:item_replacer:Cybernetic Knife",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cyberneticknife" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Cybernetic Chainsaw Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cyberneticsawblade" }
+        "when": "decide:item_replacer:Cybernetic Chainsaw Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cyberneticsawblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Cyber Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/cybersword" }
+        "when": "decide:item_replacer:Cyber Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/cybersword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Dainsleif",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/dainsleif" }
+        "when": "decide:item_replacer:Dainsleif",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/dainsleif" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Dark Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/dark_blade" }
+        "when": "decide:item_replacer:Dark Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/dark_blade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Dark Cleaver",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/dark_cleaver" }
+        "when": "decide:item_replacer:Dark Cleaver",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/dark_cleaver" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Death Knight's Dagger",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/death_knight_dagger" }
+        "when": "decide:item_replacer:Death Knight's Dagger",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/death_knight_dagger" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Death Knight's Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/death_knight_sword" }
+        "when": "decide:item_replacer:Death Knight's Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/death_knight_sword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Demigod's Unholy Halberd",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/demigodsunholyhalberd" }
+        "when": "decide:item_replacer:Demigod's Unholy Halberd",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/demigodsunholyhalberd" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Demigod's Unholy Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/demigodsunholyblade" }
+        "when": "decide:item_replacer:Demigod's Unholy Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/demigodsunholyblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Demonic Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/demonicblade" }
+        "when": "decide:item_replacer:Demonic Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/demonicblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Demonic Cleaver",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/demoniccleaver" }
+        "when": "decide:item_replacer:Demonic Cleaver",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/demoniccleaver" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Demon Lord's Great Axe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/demonlordsgreataxe" }
+        "when": "decide:item_replacer:Demon Lord's Great Axe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/demonlordsgreataxe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Demon Lord's Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/demonlordsword" }
+        "when": "decide:item_replacer:Demon Lord's Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/demonlordsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Divine Justice",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/divine_justice" }
+        "when": "decide:item_replacer:Divine Justice",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/divine_justice" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Divine Reaper",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/divine_reaper" }
+        "when": "decide:item_replacer:Divine Reaper",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/divine_reaper" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Divine Punisher",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/divinepunisher" }
+        "when": "decide:item_replacer:Divine Punisher",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/divinepunisher" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Divine Axe Rhitta",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/divineaxerhitta" }
+        "when": "decide:item_replacer:Divine Axe Rhitta",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/divineaxerhitta" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Dragon Slaying blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/dragonslayingblade" }
+        "when": "decide:item_replacer:Dragon Slaying blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/dragonslayingblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Edge Of The Astral Plane",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/edgeoftheastralplane" }
+        "when": "decide:item_replacer:Edge Of The Astral Plane",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/edgeoftheastralplane" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Epic Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/epicsword" }
+        "when": "decide:item_replacer:Epic Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/epicsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Estoc",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/estoc" }
+        "when": "decide:item_replacer:Estoc",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/estoc" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Fallen God's Spear",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/fallengodspear" }
+        "when": "decide:item_replacer:Fallen God's Spear",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/fallengodspear" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Fallen God's Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/fallengodsword" }
+        "when": "decide:item_replacer:Fallen God's Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/fallengodsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Floral Longsword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/floral_longsword" }
+        "when": "decide:item_replacer:Floral Longsword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/floral_longsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Floral Sabre",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/floral_sabre" }
+        "when": "decide:item_replacer:Floral Sabre",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/floral_sabre" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Forest Guardian's Glaive",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/forest_guardian_glaive" }
+        "when": "decide:item_replacer:Forest Guardian's Glaive",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/forest_guardian_glaive" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Frost Axe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/frostaxe" }
+        "when": "decide:item_replacer:Frost Axe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/frostaxe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Frost Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/frostblade" }
+        "when": "decide:item_replacer:Frost Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/frostblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Frost Scythe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/frostscythe" }
+        "when": "decide:item_replacer:Frost Scythe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/frostscythe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Wraith Scythe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/greenscythe" }
+        "when": "decide:item_replacer:Wraith Scythe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/greenscythe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Hero Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/herosword" }
+        "when": "decide:item_replacer:Hero Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/herosword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Holy Moonlight Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/holymoonlightsword" }
+        "when": "decide:item_replacer:Holy Moonlight Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/holymoonlightsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Hornet's Needle",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/hornetsneedle" }
+        "when": "decide:item_replacer:Hornet's Needle",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/hornetsneedle" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Jade Halberd",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/jadehalberd" }
+        "when": "decide:item_replacer:Jade Halberd",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/jadehalberd" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Katana",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/katana" }
+        "when": "decide:item_replacer:Katana",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/katana" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Legendary Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/legendarysword" }
+        "when": "decide:item_replacer:Legendary Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/legendarysword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Longsword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/longsword" }
+        "when": "decide:item_replacer:Longsword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/longsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Masamune",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/masamune" }
+        "when": "decide:item_replacer:Masamune",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/masamune" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Mjolnir",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/mjolnir" }
+        "when": "decide:item_replacer:Mjolnir",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/mjolnir" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Molten Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/moltenblade" }
+        "when": "decide:item_replacer:Molten Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/moltenblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Molten Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/moltensword" }
+        "when": "decide:item_replacer:Molten Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/moltensword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Muramasa",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/muramasa" }
+        "when": "decide:item_replacer:Muramasa",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/muramasa" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Mystical Spellblade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/mysticalspellblade" }
+        "when": "decide:item_replacer:Mystical Spellblade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/mysticalspellblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Mythic Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/mythicblade" }
+        "when": "decide:item_replacer:Mythic Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/mythicblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Partisan",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/partisan" }
+        "when": "decide:item_replacer:Partisan",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/partisan" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Pharaoh's Treasure",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/pharaohs_treasure" }
+        "when": "decide:item_replacer:Pharaoh's Treasure",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/pharaohs_treasure" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Power Fuse Hammer",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/powerfusehammer" }
+        "when": "decide:item_replacer:Power Fuse Hammer",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/powerfusehammer" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Power Fuse Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/powerfusesword" }
+        "when": "decide:item_replacer:Power Fuse Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/powerfusesword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Rivers Of Blood",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/riversofblood" }
+        "when": "decide:item_replacer:Rivers Of Blood",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/riversofblood" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Royal Chakram",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/royalchakram" }
+        "when": "decide:item_replacer:Royal Chakram",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/royalchakram" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Royal Rapier",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/royalrapier" }
+        "when": "decide:item_replacer:Royal Rapier",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/royalrapier" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Sabre",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/sabre" }
+        "when": "decide:item_replacer:Sabre",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/sabre" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Sculk Cleaver",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/sculkcleaver" }
+        "when": "decide:item_replacer:Sculk Cleaver",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/sculkcleaver" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Scissor Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/scissorblade" }
+        "when": "decide:item_replacer:Scissor Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/scissorblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Sculk Scythe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/sculkscythe" }
+        "when": "decide:item_replacer:Sculk Scythe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/sculkscythe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Sculk Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/sculksword" }
+        "when": "decide:item_replacer:Sculk Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/sculksword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Silverine Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/silverine_blade" }
+        "when": "decide:item_replacer:Silverine Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/silverine_blade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Sentinel's Will",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/sentinels_will" }
+        "when": "decide:item_replacer:Sentinel's Will",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/sentinels_will" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soul Devourer",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/soul_devourer" }
+        "when": "decide:item_replacer:Soul Devourer",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/soul_devourer" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soul Collector",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/soul_collector" }
+        "when": "decide:item_replacer:Soul Collector",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/soul_collector" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soul Edge",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/souledge" }
+        "when": "decide:item_replacer:Soul Edge",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/souledge" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soul Claws",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/soulclaws" }
+        "when": "decide:item_replacer:Soul Claws",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/soulclaws" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Steel Sword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/steelsword" }
+        "when": "decide:item_replacer:Steel Sword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/steelsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soul Harvester",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/soulharvester" }
+        "when": "decide:item_replacer:Soul Harvester",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/soulharvester" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Tengen's Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/tengensblade" }
+        "when": "decide:item_replacer:Tengen's Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/tengensblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Stop Sign",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/stop_sign" }
+        "when": "decide:item_replacer:Stop Sign",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/stop_sign" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Sunbreak",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/sunbreak" }
+        "when": "decide:item_replacer:Sunbreak",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/sunbreak" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Thunder Bringer",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/thunderbringer" }
+        "when": "decide:item_replacer:Thunder Bringer",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/thunderbringer" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Terra Blade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/terrablade" }
+        "when": "decide:item_replacer:Terra Blade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/terrablade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Thousand Demon Daggers",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/thousanddemondaggers" }
+        "when": "decide:item_replacer:Thousand Demon Daggers",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/thousanddemondaggers" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Yoru",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/yoru" }
+        "when": "decide:item_replacer:Yoru",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/yoru" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Plague Longsword",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/toxic_longsword" }
+        "when": "decide:item_replacer:Plague Longsword",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/toxic_longsword" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Vampiric Needle",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/vampiricneedle" }
+        "when": "decide:item_replacer:Vampiric Needle",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/vampiricneedle" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Wakizashi",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/wakizashi" }
+        "when": "decide:item_replacer:Wakizashi",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/wakizashi" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Whisperwind",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/whisperwind" }
+        "when": "decide:item_replacer:Whisperwind",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/whisperwind" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Wickpiercer",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/wickpiercer" }
+        "when": "decide:item_replacer:Wickpiercer",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/wickpiercer" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Thunderbrand",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/thunderbrand" }
+        "when": "decide:item_replacer:Thunderbrand",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/thunderbrand" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Watcher Claymore",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/watcher_claymore" }
+        "when": "decide:item_replacer:Watcher Claymore",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/watcher_claymore" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Watching Warglaive",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/watching_warglaive" }
+        "when": "decide:item_replacer:Watching Warglaive",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/watching_warglaive" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Waxweaver",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/waxweaver" }
+        "when": "decide:item_replacer:Waxweaver",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/waxweaver" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Star's Edge",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/stars_edge" }
+        "when": "decide:item_replacer:Star's Edge",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/stars_edge" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Storm Bringer",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/stormbringer" }
+        "when": "decide:item_replacer:Storm Bringer",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/stormbringer" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Storm's Edge",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/storms_edge" }
+        "when": "decide:item_replacer:Storm's Edge",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/storms_edge" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Ribbon Cleaver",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/ribboncleaver" }
+        "when": "decide:item_replacer:Ribbon Cleaver",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/ribboncleaver" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Righteous Relic",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/righteous_relic" }
+        "when": "decide:item_replacer:Righteous Relic",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/righteous_relic" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soulrender",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/soulrender" }
+        "when": "decide:item_replacer:Soulrender",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/soulrender" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Soul Stealer",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/soulstealer" }
+        "when": "decide:item_replacer:Soul Stealer",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/soulstealer" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Enigma",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/enigma" }
+        "when": "decide:item_replacer:Enigma",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/enigma" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Hearthflame",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/hearthflame" }
+        "when": "decide:item_replacer:Hearthflame",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/hearthflame" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Icewhisper",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/icewhisper" }
+        "when": "decide:item_replacer:Icewhisper",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/icewhisper" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Magi Scythe",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/magiscythe" }
+        "when": "decide:item_replacer:Magi Scythe",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/magiscythe" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Arcanethyst",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/arcanethyst" }
+        "when": "decide:item_replacer:Arcanethyst",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/arcanethyst" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Awakened Lichblade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/awakened_lichblade" }
+        "when": "decide:item_replacer:Awakened Lichblade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/awakened_lichblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Bramblethorn",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/bramblethorn" }
+        "when": "decide:item_replacer:Bramblethorn",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/bramblethorn" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Brimstone Claymore",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/brimstone_claymore" }
+        "when": "decide:item_replacer:Brimstone Claymore",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/brimstone_claymore" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:Emberblade",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/emberblade" }
+        "when": "decide:item_replacer:Emberblade",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/emberblade" }
 	  },
 	  {
-        "when": "wvisual:item_replacer:True Excalibur",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/excalibur" }
+        "when": "decide:item_replacer:True Excalibur",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/excalibur" }
 	  },
           {
-        "when": "wvisual:item_replacer:Requiem of the Ninth Abyss",
-        "model": { "type": "minecraft:model", "model": "wvisual:item_replacer/requiem_of_hell" }
+        "when": "decide:item_replacer:Requiem of the Ninth Abyss",
+        "model": { "type": "minecraft:model", "model": "decide:item_replacer/requiem_of_hell" }
 	  }
     ],
     "fallback": {

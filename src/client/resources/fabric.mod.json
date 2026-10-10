@@ -1,7 +1,7 @@
 
 {
   "schemaVersion": 1,
-  "id": "white",
+  "id": "decide",
   "version": "1.0",
   "name": "DecideVisuals",
   "description": "Minecraft Modification",
@@ -16,7 +16,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "ru.white.Client"
+      "ru.decide.Client"
     ]
   },
   "mixins": [

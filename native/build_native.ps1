@@ -1,5 +1,5 @@
-# Сборка NightixVocal.dll (детектор вокала, WASAPI loopback) под x64.
-# Кладёт готовую DLL в src/client/resources/assets/client/natives/, откуда её грузит MediaNative.
+# Сборка DecideVocal.dll (детектор вокала, WASAPI loopback) под x64.
+# Кладёт готовую DLL в src/client/resources/assets/decide/natives/, откуда её грузит MediaNative.
 #
 # cl/link вызываются напрямую с явными INCLUDE/LIB: vcvars64.bat в этом BuildTools
 # отсутствует, а пути к заголовкам/либам версионированные и известны.
@@ -33,12 +33,12 @@ $env:LIB = @(
 
 $srcDir = $PSScriptRoot
 $outDir = Join-Path $srcDir '..\src\client\resources\assets\client\natives'
-$objDir = Join-Path $env:TEMP 'nightix_native'
+$objDir = Join-Path $env:TEMP 'decide_native'
 if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
 if (-not (Test-Path $objDir)) { New-Item -ItemType Directory -Path $objDir -Force | Out-Null }
 
 $outDir  = (Resolve-Path $outDir).Path
-$outDll  = Join-Path $outDir 'NightixVocal.dll'
+$outDll  = Join-Path $outDir 'DecideVocal.dll'
 $outObj  = Join-Path $objDir 'lyrics_vocal.obj'
 $outLib  = Join-Path $objDir 'lyrics_vocal.lib'
 $outExp  = Join-Path $objDir 'lyrics_vocal.exp'
@@ -49,7 +49,7 @@ $args = @(
     '/nologo', '/LD', '/EHsc', '/O2', '/std:c++17', '/W3',
     '/DUNICODE', '/D_UNICODE', '/MT', '/GS-', '/Oi-',
     "/Fo$outObj", "/Fe$outDll",
-    'C:\11Client\Nightix-main\native\lyrics_vocal.cpp',
+    'C:\work6\DecideVisuals-main\native\lyrics_vocal.cpp',
     '/link', '/DLL', '/MACHINE:X64', '/SUBSYSTEM:WINDOWS', '/NODEFAULTLIB:libcpmt.lib',
     "/IMPLIB:$outLib", "/OUT:$outDll",
     'ole32.lib', 'uuid.lib', 'avrt.lib', 'advapi32.lib', 'kernel32.lib', 'user32.lib'

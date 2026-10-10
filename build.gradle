@@ -14,7 +14,7 @@ loom {
     splitEnvironmentSourceSets()
     accessWidenerPath = file("src/client/resources/client.accesswidener")
     mods {
-        "untitled" {
+        "decide" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
@@ -83,11 +83,22 @@ dependencies {
     // Реальный GeckoLib (animations для custom pet), отдельный мод — в проде кладётся в mods/
     modImplementation("software.bernie.geckolib:geckolib-fabric-1.21.11:5.4.5")
 
+    // Shulker Box Tooltip: показывает содержимое шалкеров/сундуков/эндр-сундуков
+    // и книг с инвентарём при наведении на предмет. В own jar через Loom include,
+    // поэтому пользователю не нужно ничего доставлять отдельно.
+    modImplementation include("localLibs:shulkerboxtooltip-fabric:${shulkerboxtooltip_version}")
+
+    // Lombok: декомпилированный код держится на @UtilityClass / @Getter / @FieldDefaults
+    // (ColorUtil, Client, BooleanSetting, ...). Split-source-set (loom) требует отдельного
+    // подключения к sourceSets.client, иначе аннотации не обрабатываются и падает
+    // compileClientJava с "cannot find symbol" на fluent-геттерах.
     implementation 'org.projectlombok:lombok:1.18.46'
     annotationProcessor 'org.projectlombok:lombok:1.18.46'
+    clientCompileOnly 'org.projectlombok:lombok:1.18.46'
+    clientAnnotationProcessor 'org.projectlombok:lombok:1.18.46'
 
     // JNA: нативные мосты для медиа-сессий Windows (OptMedia.dll) и детектора
-    // вокала (NightixVocal.dll) из модуля Lyrics Text. Вкладывается в jar, иначе
+    // вокала (DecideVocal.dll) из модуля Lyrics Text. Вкладывается в jar, иначе
     // клиент не запустится без внешнего jna на classpath.
     modImplementation include('net.java.dev.jna:jna:5.17.0')
 
@@ -158,13 +169,22 @@ java {
     // ("Class version 65 required is higher than ..."), и клиент рисовал
     // пустой кадр. Minecraft 1.21.11 + Sodium требуют именно Java 21.
     toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    withSourcesJar()
+    // sourcesJar НЕ собираем: он весит ~137 МБ (внутри лежат ассеты),
+    // а диск у машины маленький - сборка падала с "Недостаточно места на диске"
 }
 
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archives_base_name}" }
     }
+}
+
+// Loom собирает ещё и dev-jar (~132 МБ), но он нам не нужен: клиент
+// запускается из run/mods обычного jar. На маленьком диске dev-jar каждый
+// раз съедал всё свободное место и ронял сборку
+// ("Could not add file ... to ZIP ...").
+tasks.matching { it.name == 'devJar' }.configureEach {
+    enabled = false
 }
 
 publishing {
@@ -179,11 +199,11 @@ publishing {
 }
 
 // Отладочный прогон нативного моста Lyrics Text вне игры: печатает, что реально
-// отдают OptMedia.dll и NightixVocal.dll, и проверяет разбор LRC с lrclib.
+// отдают OptMedia.dll и DecideVocal.dll, и проверяет разбор LRC с lrclib.
 // Запуск: gradlew checkNativeBridge
 tasks.register('checkNativeBridge', JavaExec) {
     group = 'verification'
     description = 'Проверяет JNA-мосты медиа-сессий и детектора вокала без запуска игры'
     classpath = sourceSets.client.runtimeClasspath
-    mainClass = 'ru.white.utils.media.NativeBridgeCheck'
+    mainClass = 'ru.decide.utils.media.NativeBridgeCheck'
 }

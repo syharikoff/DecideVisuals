@@ -1,4 +1,4 @@
-// Smoke-тест NightixVocal.dll: грузит DLL, запускает loopback, снимает уровень.
+// Smoke-тест DecideVocal.dll: грузит DLL, запускает loopback, снимает уровень.
 //
 // Нужен, чтобы проверить, что WASAPI инициализируется и поток захвата не падает,
 // ещё до того как DLL поедет внутри клиента.
@@ -17,7 +17,7 @@ typedef int  (*FnFlags)(void);
 typedef int  (*FnVersion)(void);
 
 int main(int argc, char** argv) {
-    const char* path = argc > 1 ? argv[1] : "NightixVocal.dll";
+    const char* path = argc > 1 ? argv[1] : "DecideVocal.dll";
 
     HMODULE dll = LoadLibraryA(path);
     if (dll == nullptr) {

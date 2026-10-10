@@ -1,0 +1,162 @@
+{
+  "entity.ribbit.ambient": {
+    "sounds": [
+      "decide:entity/ribbit_ambient1",
+      "decide:entity/ribbit_ambient2",
+      "decide:entity/ribbit_ambient3",
+      "decide:entity/ribbit_ambient4",
+      "decide:entity/ribbit_ambient5"
+    ]
+  },
+  "entity.ribbit.step": {
+    "sounds": [
+      "decide:entity/ribbit_step1",
+      "decide:entity/ribbit_step2"
+    ]
+  },
+  "wasted": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "decide:wasted",
+        "stream": false,
+        "attenuation_distance": 64
+      }
+    ]
+  },
+  "effect.kill_1": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "decide:effect/effect_kill_1",
+        "stream": false
+      }
+    ]
+  },
+  "effect.kill_2": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "decide:effect/effect_kill_2",
+        "stream": false
+      }
+    ]
+  },
+  "effect.totem_1": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "decide:effect/effect_totem_1",
+        "stream": false
+      }
+    ]
+  },
+  "effect.totem_2": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "decide:effect/effect_totem_2",
+        "stream": false
+      }
+    ]
+  },
+  "effect.greeting": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "decide:effect/effect_greeting",
+        "stream": false
+      }
+    ]
+  },
+  "key.press": {
+    "category": "master",
+    "sounds": [
+      "decide:keys/keys/key_01",
+      "decide:keys/keys/key_02",
+      "decide:keys/keys/key_03",
+      "decide:keys/keys/key_04",
+      "decide:keys/keys/key_05",
+      "decide:keys/keys/key_06",
+      "decide:keys/keys/key_07",
+      "decide:keys/keys/key_08",
+      "decide:keys/keys/key_09",
+      "decide:keys/keys/key_10",
+      "decide:keys/keys/key_11",
+      "decide:keys/keys/key_12",
+      "decide:keys/keys/key_13",
+      "decide:keys/keys/key_14",
+      "decide:keys/keys/key_15",
+      "decide:keys/keys/key_16",
+      "decide:keys/keys/key_17",
+      "decide:keys/keys/key_18",
+      "decide:keys/keys/key_19",
+      "decide:keys/keys/key_20",
+      "decide:keys/keys/key_21",
+      "decide:keys/keys/key_22",
+      "decide:keys/keys/key_23",
+      "decide:keys/keys/key_24",
+      "decide:keys/keys/key_25",
+      "decide:keys/keys/key_26",
+      "decide:keys/keys/key_27",
+      "decide:keys/keys/key_28",
+      "decide:keys/keys/key_29",
+      "decide:keys/keys/key_30",
+      "decide:keys/keys/key_31",
+      "decide:keys/keys/key_32",
+      "decide:keys/keys/key_33",
+      "decide:keys/keys/key_34",
+      "decide:keys/keys/key_35",
+      "decide:keys/keys/key_36",
+      "decide:keys/keys/key_37",
+      "decide:keys/keys/key_38",
+      "decide:keys/keys/key_39",
+      "decide:keys/keys/key_40"
+    ]
+  },
+  "key.mouse": {
+    "category": "master",
+    "sounds": [
+      "decide:keys/mouse/key_01",
+      "decide:keys/mouse/key_02",
+      "decide:keys/mouse/key_03",
+      "decide:keys/mouse/key_04",
+      "decide:keys/mouse/key_05",
+      "decide:keys/mouse/key_06",
+      "decide:keys/mouse/key_07",
+      "decide:keys/mouse/key_08",
+      "decide:keys/mouse/key_09",
+      "decide:keys/mouse/key_10",
+      "decide:keys/mouse/key_11",
+      "decide:keys/mouse/key_12",
+      "decide:keys/mouse/key_13",
+      "decide:keys/mouse/key_14",
+      "decide:keys/mouse/key_15",
+      "decide:keys/mouse/key_16",
+      "decide:keys/mouse/key_17",
+      "decide:keys/mouse/key_18",
+      "decide:keys/mouse/key_19",
+      "decide:keys/mouse/key_20",
+      "decide:keys/mouse/key_21",
+      "decide:keys/mouse/key_22",
+      "decide:keys/mouse/key_23",
+      "decide:keys/mouse/key_24",
+      "decide:keys/mouse/key_25",
+      "decide:keys/mouse/key_26",
+      "decide:keys/mouse/key_27",
+      "decide:keys/mouse/key_28",
+      "decide:keys/mouse/key_29",
+      "decide:keys/mouse/key_30",
+      "decide:keys/mouse/key_31",
+      "decide:keys/mouse/key_32",
+      "decide:keys/mouse/key_33",
+      "decide:keys/mouse/key_34",
+      "decide:keys/mouse/key_35",
+      "decide:keys/mouse/key_36",
+      "decide:keys/mouse/key_37",
+      "decide:keys/mouse/key_38",
+      "decide:keys/mouse/key_39",
+      "decide:keys/mouse/key_40"
+    ]
+  }
+}

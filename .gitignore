@@ -1,7 +1,16 @@
-# Gradle
-.gradle/
+# Сборка
 build/
-!gradle/wrapper/gradle-wrapper.jar
+out/
+target/
+
+# Кэш Gradle
+.gradle/
+
+# Локальный запуск: миры, логи, конфиги, моды из run/mods
+run/
+
+# Джарники зависимостей — Gradle качает их сам
+libs/
 
 # IDE
 .idea/
@@ -9,39 +18,15 @@ build/
 *.ipr
 *.iws
 .vscode/
+*.classpath
+*.project
+.settings/
 
-# Minecraft
-run/
-out/
+# Бинарные утилиты в tools
+tools/**/bin/
+tools/**/obj/
 
-# OS
-.DS_Store
-Thumbs.db
-
-# --- мусор, который копимся во время разработки ---
-hsperfdata_*/
+# Прочее
 *.log
-replay_pid*.log
-buildLog*.txt
-build_output*.txt
-build_full*.txt
-build_m.txt
-compile_output.txt
-constructor_*.txt
-run_output*.txt
-run_verify.txt
-run_launch.txt
-out.txt
-
-# --- сторонние моды, распакованные ради рефера ---
-/*.jar
-/tools/
-
-# --- промежуточные ассеты (генерируются скриптами копирования) ---
-/tmp/
-
-# --- разовые скрипты миграции маппингов/импортов ---
-/fix_imports.ps1
-/fix_mappings.ps1
-/gen-mixin.ps1
-/gen-mixin2.ps1
+Thumbs.db
+.DS_Store
